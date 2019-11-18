@@ -7,20 +7,29 @@ def generate_hash(valore):
     return hasher.hexdigest()
 
 def encrypt(valore, pw):
-    byteVL = bytearray(valore.encode())
-    bytePW = bytearray(generate_hash(pw).encode())
-    crypted = bytearray()
+    byteVL = valore.encode('ascii')
+    bytePW = generate_hash(pw).encode('ascii')
+    print(byteVL, bytePW)
+    crypted = []
     for i in range(len(valore)):
+        print(byteVL[i], bytePW[i], byteVL[i] + bytePW[i])
         somma = byteVL[i] + bytePW[i]
+        somma -= 128
         crypted.append(somma)
-    return (bytes(crypted)).decode()
-
+    print(crypted)
+    strCrypted = str()
+    for i in range(len(crypted)):
+        print("Valori prima e dopo")
+        print(bytes(crypted[i]).decode('ascii'), bytes(crypted[i]))
+        strCrypted.join(bytes(crypted[i]).decode('ascii'))
+    return strCrypted
 
 print("Input the word you want to crypt")
 parola = input()
 print("Now input the password")
 password = input()
-print(encrypt(parola, password))
+print(len(encrypt(parola, password)))
+
 
 #sha512 => Output 128 caratteri
 """
